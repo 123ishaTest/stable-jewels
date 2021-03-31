@@ -2,11 +2,8 @@ import {Feature} from "@/ig-template/features/Feature";
 import {SaveData} from "@/ig-template/tools/saving/SaveData";
 import {Features} from "@/ig-template/Features";
 import {ISimpleEvent, SimpleEventDispatcher} from "strongly-typed-events";
-import {SpecialEventId} from "@/ig-template/features/special-events/SpecialEventId";
-import {DateHelper} from "@/ig-template/util/DateHelper";
 import {WeeklySpecialEvent} from "@/ig-template/features/special-events/WeeklySpecialEvent";
 import {AbstractSpecialEvent} from "@/ig-template/features/special-events/AbstractSpecialEvent";
-import {SpecialEvent} from "@/ig-template/features/special-events/SpecialEvent";
 
 export class SpecialEvents extends Feature {
 
@@ -28,29 +25,6 @@ export class SpecialEvents extends Feature {
 
     initialize(features: Features) {
         // Schedule an event for a specific date and time.
-        this.addEvent(
-            new SpecialEvent(SpecialEventId.AllowButton, 'Example Event', 'Make the sacred button appear in the example feature',
-                DateHelper.addMinutes(new Date(), 1), DateHelper.addMinutes(new Date(), 2),
-                () => {
-                    features.example.showEventButton = true;
-                },
-                () => {
-                    features.example.showEventButton = false;
-                },
-            )
-        );
-        // You can also schedule weekly events
-        this.addEvent(
-            new WeeklySpecialEvent(SpecialEventId.Weekly, 'Weekly Event', 'Every week this is active',
-                new Date(2021, 2, 9), new Date(2021, 2, 10),
-                () => {
-                    features.example.weeklyEventActive = true;
-                },
-                () => {
-                    features.example.weeklyEventActive = false;
-                },
-            )
-        );
     }
 
     /**

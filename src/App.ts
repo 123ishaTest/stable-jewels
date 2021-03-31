@@ -5,7 +5,7 @@ import {Settings} from "@/ig-template/features/settings/Settings";
 import {Statistics} from "@/ig-template/features/statistics/Statistics";
 import {Achievements} from "@/ig-template/features/achievements/Achievements";
 import {RedeemableCodes} from "@/ig-template/features/codes/RedeemableCodes";
-import {ExampleFeature} from "@/ig-template/features/example/ExampleFeature";
+import {ActionGenerator} from "@/ig-template/features/action-generator/ActionGenerator";
 import {SpecialEvents} from "@/ig-template/features/special-events/SpecialEvents";
 import {Inventory} from "@/ig-template/features/inventory/Inventory";
 import {ItemList} from "@/ig-template/features/items/ItemList";
@@ -31,7 +31,7 @@ export class App {
                 wallet: new Wallet([CurrencyType.Sapphire, CurrencyType.Emerald, CurrencyType.Ruby, CurrencyType.Diamond]),
                 settings: new Settings(),
                 codes: new RedeemableCodes(),
-                example: new ExampleFeature(),
+                actionGenerator: new ActionGenerator(),
                 inventory: new Inventory(),
                 itemList: new ItemList(),
                 keyItems: new KeyItems(),

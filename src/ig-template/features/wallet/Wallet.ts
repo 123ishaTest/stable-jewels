@@ -165,7 +165,19 @@ export class Wallet extends Feature {
         return this._onCurrencyGain.asEvent();
     }
 
-    public get money(): number {
+    public get sapphire(): number {
+        return this._currencies.Sapphire;
+    }
+
+    public get emerald(): number {
+        return this._currencies.Emerald;
+    }
+
+    public get ruby(): number {
+        return this._currencies.Ruby;
+    }
+
+    public get diamond(): number {
         return this._currencies.Diamond;
     }
 

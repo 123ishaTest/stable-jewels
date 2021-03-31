@@ -23,7 +23,7 @@ export class Random {
 
     /**
      * Return a boolean with a 1 in chance to be true.
-     * booleanWithChance(300) for example
+     * booleanWithChance(300) for action-generator
      * @param chance
      */
     static booleanWithOneInChance(chance: number): boolean {
