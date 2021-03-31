@@ -10,6 +10,9 @@
                    @click.native="generator.buyUpgrade(maxActionUpgrade)"></igt-upgrade>
       <igt-upgrade :upgrade="negativeRateUpgrade" :can-buy="generator.canAfford(negativeRateUpgrade)"
                    @click.native="generator.buyUpgrade(negativeRateUpgrade)"></igt-upgrade>
+
+      <igt-upgrade :upgrade="betterGems" :can-buy="generator.canAfford(betterGems)"
+                   @click.native="generator.buyUpgrade(betterGems)"></igt-upgrade>
     </div>
 
     <div class="my-2 flex flex-col">
@@ -49,6 +52,9 @@ export default {
     }
   },
   computed: {
+    betterGems() {
+      return this.generator.betterGems;
+    },
     refreshUpgrade() {
       return this.generator.refreshDurationUpgrade
     },

@@ -16,6 +16,7 @@ export class GainCurrencyAction extends JewelAction {
 
     gainReward(): boolean {
         if (this.isNegative) {
+            this.currency.amount = Math.abs(this.currency.amount);
             this._wallet.loseCurrency(this.currency);
         } else {
             this._wallet.gainCurrency(this.currency);

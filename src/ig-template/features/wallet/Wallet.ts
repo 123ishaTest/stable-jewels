@@ -74,17 +74,13 @@ export class Wallet extends Feature {
         return this._currencies[currency.type] >= currency.amount;
     }
 
-    /**
-     * Remove the currency amount from the specified currency.
-     * IMPORTANT: This method does not care if amounts go negative
-     * @param currency
-     */
+
     public loseCurrency(currency: Currency): void {
         if (!currency.isValid() || !this.supportsCurrencyType(currency.type)) {
             console.warn(`Could not lose currency ${currency.toString()}`);
             return;
         }
-        this._currencies[currency.type] -= currency.amount;
+        this._currencies[currency.type] -= Math.min(currency.amount, this._currencies[currency.type]);
     }
 
     /**

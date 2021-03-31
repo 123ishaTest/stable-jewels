@@ -22,6 +22,7 @@ export class ActionGenerator extends UpgradesFeature {
     refreshDurationUpgrade: DiscreteUpgrade;
     maxActionsUpgrade: DiscreteUpgrade;
     negativeRateUpgrade: DiscreteUpgrade;
+    betterGems: DiscreteUpgrade;
 
     public checkCounter: number = 0;
 
@@ -46,10 +47,24 @@ export class ActionGenerator extends UpgradesFeature {
             CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 10), CurrencyType.Ruby),
             ArrayBuilder.fromStartAndStepAdditive(0.5, -0.05, 11), 1
         )
+
+
+        this.betterGems = new DiscreteUpgrade(UpgradeId.NegativeRate, UpgradeType.None, "Better Gem Chance", 25,
+            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 7), CurrencyType.Sapphire).concat(
+                CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 7), CurrencyType.Emerald).concat(
+                    CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 7), CurrencyType.Ruby).concat(
+                        CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 4), CurrencyType.Diamond).concat(
+                        )
+                    )
+                )
+            ),
+            ArrayBuilder.fromStartAndStepAdditive(0, 0.02, 26), 1
+        )
         this.upgrades = [
             this.refreshDurationUpgrade,
             this.maxActionsUpgrade,
             this.negativeRateUpgrade,
+            this.betterGems,
         ]
     }
 
@@ -73,6 +88,10 @@ export class ActionGenerator extends UpgradesFeature {
 
     get switchTime() {
         return this.refreshDurationUpgrade.getBonus();
+    }
+
+    get gemImprovement() {
+        return this.betterGems.getBonus();
     }
 
     get negativeProb() {
@@ -127,17 +146,17 @@ export class ActionGenerator extends UpgradesFeature {
 
     createCurrencyGain(level: number, negativeProb: number): GainCurrencyAction {
         const isNegative = Random.booleanWithProbability(negativeProb);
-        const isSapphire = Random.booleanWithProbability(0.7);
+        const isSapphire = Random.booleanWithProbability(0.7 - this.gemImprovement);
         if (isSapphire) {
             return this.createSapphire(level, isNegative)
         }
 
-        const isEmerald = Random.booleanWithProbability(0.6);
+        const isEmerald = Random.booleanWithProbability(0.6 - this.gemImprovement);
         if (isEmerald) {
             return this.createEmerald(level, isNegative)
 
         }
-        const isRuby = Random.booleanWithProbability(0.5);
+        const isRuby = Random.booleanWithProbability(0.5 - this.gemImprovement);
         if (isRuby) {
             return this.createRuby(level, isNegative)
         }
