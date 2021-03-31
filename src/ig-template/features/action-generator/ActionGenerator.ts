@@ -14,6 +14,7 @@ export class ActionGenerator extends UpgradesFeature {
     actions: JewelAction[] = [];
     playerLevel: ContinuousExpLevel;
 
+
     public readonly GENERATOR_CHECK_TIME: number = 60;
     public checkCounter: number = 0;
 
@@ -59,34 +60,25 @@ export class ActionGenerator extends UpgradesFeature {
     private getAction(): JewelAction {
         const level = this.playerLevel.getLevel();
         const negativeProb = 0.2;
-        const possibleActions = [
-            new GainExpAction(3, this.playerLevel, 10),
-            this.createCurrencyGain(level, negativeProb),
-            this.createCurrencyGain(level, negativeProb),
-            this.createCurrencyGain(level, negativeProb),
-            this.createCurrencyGain(level, negativeProb),
-            this.createCurrencyGain(level, negativeProb),
-            this.createCurrencyGain(level, negativeProb),
-            this.createCurrencyGain(level, negativeProb),
-            this.createCurrencyGain(level, negativeProb),
-            this.createCurrencyGain(level, negativeProb),
-            this.createCurrencyGain(level, negativeProb),
-            this.createCurrencyGain(level, negativeProb),
-            this.createCurrencyGain(level, negativeProb),
-            this.createCurrencyGain(level, negativeProb),
-            this.createCurrencyGain(level, negativeProb),
-            this.createCurrencyGain(level, negativeProb),
-        ]
+        const possibleActions = [];
+        for (let i = 0; i < 15; i++) {
+            possibleActions.push(this.createCurrencyGain(level, negativeProb))
+        }
+        for (let i = 0; i < 10; i++) {
+            possibleActions.push(this.createExpGain(level, negativeProb))
+        }
         return Random.fromArray(possibleActions);
     }
 
     createExpGain(level: number, negativeProb: number) {
         let benefit = Math.floor(3 + level ^ 2);
+        let duration = Random.fuzzInt(benefit * 3, 0.3);
         const isNegative = Random.booleanWithProbability(negativeProb);
         if (isNegative) {
             benefit *= -4 / 5;
+            duration /= 8;
         }
-        return new GainExpAction(Random.fuzzInt(benefit * 5, 0.3), this.playerLevel, Random.fuzzInt(benefit, 0.2))
+        return new GainExpAction(duration, this.playerLevel, Random.fuzzInt(benefit, 0.2))
     }
 
     createCurrencyGain(level: number, negativeProb: number): GainCurrencyAction {

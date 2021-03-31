@@ -7,7 +7,7 @@ export class GainExpAction extends JewelAction {
 
 
     constructor(duration: number, expLevel: AbstractExpLevel, amount: number) {
-        super(`Gain ${amount} EXP`, duration, amount < 0);
+        super(`${amount < 0 ? 'Lose' : 'Gain'} ${amount} EXP`, duration, amount < 0);
         this._expLevel = expLevel;
         this.amount = amount;
     }

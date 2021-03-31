@@ -15,6 +15,7 @@ export abstract class AbstractExpLevel {
 
     gainExperience(amount: number): void {
         this.exp += amount;
+        this.exp = Math.max(0, this.exp);
     }
 
     getLevel(): number {
