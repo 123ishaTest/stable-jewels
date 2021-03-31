@@ -1,11 +1,11 @@
 <template>
   <div
-      class="w-72 h-36 border-4 shadow-lg hover:opacity-80 flex flex-row items-center cursor-pointer"
+      class="w-44 h-28 border-4 shadow-lg hover:opacity-80 flex flex-col justify-center cursor-pointer"
       :class="color"
       @click="action.toggle()">
-    <div class="flex flex-col w-full">
-      <div class="flex flex-row w-full justify-end">
-        <span class="fa mx-4 p-2" :class="lockImage" @click.stop="lock"></span>
+    <div class="flex flex-col w-full relative">
+      <div class="absolute right-0 -top-2">
+        <span class="fa px-3 py-3" :class="lockImage" @click.stop="lock"></span>
       </div>
       <div class="p-4 flex flex-col w-full space-y-1">
         <p class="text-center text-white">{{ action.description }}</p>
