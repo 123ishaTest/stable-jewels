@@ -10,8 +10,8 @@ export class ActionGenerator extends UpgradesFeature {
     actions: JewelAction[] = [];
     playerLevel: ContinuousExpLevel;
 
-    private readonly GENERATOR_CHECK_TIME: number = 60;
-    private _checkCounter: number = 0;
+    public readonly GENERATOR_CHECK_TIME: number = 60;
+    public checkCounter: number = 0;
 
     constructor() {
         super('action-generator-feature');
@@ -36,10 +36,16 @@ export class ActionGenerator extends UpgradesFeature {
     }
 
     private generateNewActions() {
+        const activeMemory = this.actions.map(action => {
+            return action.isStarted;
+        })
         this.actions = [];
         for (let i = 0; i < this.maxActionCount; i++) {
             this.actions.push(this.getAction())
         }
+        this.actions.forEach((action, index) => {
+            action.isStarted = activeMemory[index];
+        })
 
     }
 
@@ -52,10 +58,10 @@ export class ActionGenerator extends UpgradesFeature {
             action.perform(delta);
         })
 
-        this._checkCounter += delta;
-        if (this._checkCounter >= this.GENERATOR_CHECK_TIME) {
+        this.checkCounter += delta;
+        if (this.checkCounter >= this.GENERATOR_CHECK_TIME) {
             this.generateNewActions();
-            this._checkCounter = 0;
+            this.checkCounter = 0;
         }
 
     }

@@ -1,13 +1,12 @@
 <template>
   <div>
-
     <div class="relative pt-1">
       <div class="flex justify-between">
         <p>Lvl. {{ expLevel.getLevel() }} / {{ expLevel.maxLevel }}</p>
         <p>{{ progress.actual | numberFormat }} / {{ progress.target  | numberFormat }}</p>
 
       </div>
-      <igt-progress-bar :percentage="progressPercentage"></igt-progress-bar>
+      <igt-progress-bar :percentage="progressPercentage" fg-class="bg-green-600" bg-class="bg-green-200"></igt-progress-bar>
 
     </div>
   </div>
