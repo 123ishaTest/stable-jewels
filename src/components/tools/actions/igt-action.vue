@@ -29,25 +29,32 @@ export default {
       type: JewelAction,
       required: true,
     },
+    highlightNegatives: {
+      type: Boolean,
+      required: true,
+    }
   },
   computed: {
     color() {
+      if (this.highlightNegatives && this.isNegative) {
+        return 'bg-red-500 border-red-600';
+      }
       if (this.action instanceof GainExpAction) {
-        return 'bg-green-500 border-green-700'
+        return 'bg-green-500 border-green-700';
       }
       if (this.action instanceof GainCurrencyAction) {
         switch (this.action.currency.type) {
           case CurrencyType.Sapphire:
-            return 'bg-blue-500 border-blue-700'
+            return 'bg-blue-500 border-blue-700';
           case CurrencyType.Emerald:
-            return 'bg-green-500 border-green-700'
+            return 'bg-green-500 border-green-700';
           case CurrencyType.Ruby:
-            return 'bg-yellow-500 border-yellow-700'
+            return 'bg-yellow-500 border-yellow-700';
           case CurrencyType.Diamond:
-            return 'bg-gray-400 border-gray-500'
+            return 'bg-gray-400 border-gray-500';
         }
       }
-      return 'bg-pink-500 border-pink-700'
+      return 'bg-pink-500 border-pink-700';
 
     },
     isNegative() {

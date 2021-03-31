@@ -13,6 +13,9 @@
 
       <igt-upgrade :upgrade="betterGems" :can-buy="generator.canAfford(betterGems)"
                    @click.native="generator.buyUpgrade(betterGems)"></igt-upgrade>
+
+      <igt-single-level-upgrade :upgrade="highlightNegativeUpgrade" :can-buy="generator.canAfford(highlightNegativeUpgrade)"
+                   @click.native="generator.buyUpgrade(highlightNegativeUpgrade)"></igt-single-level-upgrade>
     </div>
 
     <div class="my-2 flex flex-col">
@@ -25,6 +28,7 @@
     </div>
     <div class="flex flex-row flex-wrap">
       <igt-action :action="action"
+                  :highlight-negatives="highlightNegatives"
                   class="m-2"
                   v-for="(action, index) in actions"
                   :key="action.description + '-' + index">
@@ -42,16 +46,23 @@ import IgtAction from "@/components/tools/actions/igt-action";
 import IgtProgressBar from "@/components/util/igt-progress-bar";
 import SjTimeUpgrade from "@/components/tools/upgrades/sj-time-upgrade";
 import IgtUpgrade from "@/components/tools/upgrades/igt-discrete-upgrade";
+import IgtSingleLevelUpgrade from "@/components/tools/upgrades/igt-single-level-upgrade";
 
 export default {
   name: "sj-action-generator",
-  components: {IgtUpgrade, SjTimeUpgrade, IgtProgressBar, IgtAction, IgtExpLevel, IgtFeature},
+  components: {IgtSingleLevelUpgrade, IgtUpgrade, SjTimeUpgrade, IgtProgressBar, IgtAction, IgtExpLevel, IgtFeature},
   data() {
     return {
       generator: App.game.features.actionGenerator,
     }
   },
   computed: {
+    highlightNegativeUpgrade() {
+      return this.generator.highlightNegatives;
+    },
+    highlightNegatives() {
+      return this.generator.highlightNegativeActions;
+    },
     betterGems() {
       return this.generator.betterGems;
     },

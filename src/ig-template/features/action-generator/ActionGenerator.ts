@@ -71,6 +71,7 @@ export class ActionGenerator extends UpgradesFeature {
             this.maxActionsUpgrade,
             this.negativeRateUpgrade,
             this.betterGems,
+            this.highlightNegatives
         ]
     }
 

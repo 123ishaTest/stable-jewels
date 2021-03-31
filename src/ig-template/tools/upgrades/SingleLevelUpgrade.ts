@@ -9,7 +9,7 @@ import {Currency} from "@/ig-template/features/wallet/Currency";
 export class SingleLevelUpgrade extends DiscreteUpgrade {
 
     constructor(id: UpgradeId, type: UpgradeType, displayName: string, cost: Currency, bonus: number) {
-        super(id, type, displayName, 1, [cost], [0, bonus]);
+        super(id, type, displayName, 1, [cost], [0, bonus], 0);
     }
 
     isBought(): boolean {
