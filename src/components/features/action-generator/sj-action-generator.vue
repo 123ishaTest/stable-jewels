@@ -25,7 +25,7 @@
                    @click.native="generator.buyUpgrade(locks)"></igt-upgrade>
 
 
-      <igt-single-level-upgrade v-if="generator._wallet.diamond > 10" :upgrade="completeTheGame"
+      <igt-single-level-upgrade v-if="generator._wallet.diamond > 10 || completeTheGame.isBought()" :upgrade="completeTheGame"
                                 :can-buy="generator.canAfford(completeTheGame)"
                                 @click.native="buyFinalUpgrade">
       </igt-single-level-upgrade>
