@@ -19,7 +19,8 @@
     "strongly-typed-events": "^1.6.17",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3",
     "vt-notifications": "^0.3.1",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-sweetalert2": "^4.2.1"
   },
   "devDependencies": {
     "@types/jest": "^26.0.14",

@@ -25,7 +25,8 @@
                    @click.native="generator.buyUpgrade(locks)"></igt-upgrade>
 
 
-      <igt-single-level-upgrade v-if="generator._wallet.diamond > 10 || completeTheGame.isBought()" :upgrade="completeTheGame"
+      <igt-single-level-upgrade v-if="generator._wallet.diamond > 10 || completeTheGame.isBought()"
+                                :upgrade="completeTheGame"
                                 :can-buy="generator.canAfford(completeTheGame)"
                                 @click.native="buyFinalUpgrade">
       </igt-single-level-upgrade>
@@ -117,7 +118,10 @@ export default {
     buyFinalUpgrade() {
       const bought = this.generator.buyUpgrade(this.completeTheGame)
       if (bought) {
-        alert("Congratulation, you have beaten the game")
+        this.$swal('Congratulations', "You have completed my April Fools game :)<br>" +
+            "I hope you enjoyed it. It was made in 6 hours with the <a target='_blank' class='text-black cursive underline' href='https://123ishatest.github.io/incremental-game-template-website/'>Incremental Game Template</a>!<br>" +
+            "Want to learn more? Join the <a target='_blank' class='text-black cursive underline' href='https://discord.gg/AvNpq6Ng6S'>Discord</a>!<br>" +
+            "<br><br> Thanks for playing<br>- Isha");
       }
     },
     lock(index, lock) {
