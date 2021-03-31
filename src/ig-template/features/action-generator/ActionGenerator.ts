@@ -29,6 +29,7 @@ export class ActionGenerator extends UpgradesFeature {
     speedBoostUpgrade: DiscreteUpgrade;
     locks: DiscreteUpgrade;
     highlightNegatives: SingleLevelUpgrade;
+    completeTheGame: SingleLevelUpgrade;
 
     public checkCounter: number = 0;
 
@@ -87,6 +88,9 @@ export class ActionGenerator extends UpgradesFeature {
         this.highlightNegatives = new SingleLevelUpgrade(UpgradeId.HighlightNegative, UpgradeType.None, "Highlight Negatives",
             new Currency(200, CurrencyType.Emerald), 1);
 
+        this.completeTheGame = new SingleLevelUpgrade(UpgradeId.CompleteTheGame, UpgradeType.None, "Complete the game",
+            new Currency(2500, CurrencyType.Diamond), 1);
+
         this.upgrades = [
             this.refreshDurationUpgrade,
             this.maxActionsUpgrade,
@@ -94,7 +98,8 @@ export class ActionGenerator extends UpgradesFeature {
             this.betterGems,
             this.highlightNegatives,
             this.locks,
-            this.speedBoostUpgrade
+            this.speedBoostUpgrade,
+            this.completeTheGame
         ]
     }
 

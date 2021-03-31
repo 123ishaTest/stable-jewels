@@ -9,4 +9,5 @@ export enum UpgradeId {
     SingleLevel = 'single-level',
     Locks = 'locks',
     SpeedBoost = 'speed-boost',
+    CompleteTheGame = 'complete-the-game',
 }

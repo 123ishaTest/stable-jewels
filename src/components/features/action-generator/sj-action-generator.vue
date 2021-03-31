@@ -24,6 +24,12 @@
       <igt-upgrade :upgrade="locks" :can-buy="generator.canAfford(locks)"
                    @click.native="generator.buyUpgrade(locks)"></igt-upgrade>
 
+
+      <igt-single-level-upgrade v-if="generator._wallet.diamond > 10" :upgrade="completeTheGame"
+                                :can-buy="generator.canAfford(completeTheGame)"
+                                @click.native="buyFinalUpgrade">
+      </igt-single-level-upgrade>
+
     </div>
 
     <div class="my-2 flex flex-col">
@@ -67,6 +73,9 @@ export default {
     }
   },
   computed: {
+    completeTheGame() {
+      return this.generator.completeTheGame;
+    },
     highlightNegativeUpgrade() {
       return this.generator.highlightNegatives;
     },
@@ -105,6 +114,12 @@ export default {
     }
   },
   methods: {
+    buyFinalUpgrade() {
+      const bought = this.generator.buyUpgrade(this.completeTheGame)
+      if (bought) {
+        alert("Congratulation, you have beaten the game")
+      }
+    },
     lock(index, lock) {
       if (lock) {
         this.generator.lock(index);
