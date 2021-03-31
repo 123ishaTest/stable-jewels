@@ -54,10 +54,10 @@ export default {
     },
     color() {
       if (this.highlightNegatives && this.isNegative) {
-        return 'bg-red-500 border-red-600';
+        return 'bg-yellow-500 border-yellow-700';
       }
       if (this.action instanceof GainExpAction) {
-        return 'bg-green-500 border-green-700';
+        return 'bg-purple-400 border-purple-500';
       }
       if (this.action instanceof GainCurrencyAction) {
         switch (this.action.currency.type) {
@@ -66,7 +66,7 @@ export default {
           case CurrencyType.Emerald:
             return 'bg-green-500 border-green-700';
           case CurrencyType.Ruby:
-            return 'bg-yellow-500 border-yellow-700';
+            return 'bg-red-600 border-red-700';
           case CurrencyType.Diamond:
             return 'bg-gray-400 border-gray-500';
         }

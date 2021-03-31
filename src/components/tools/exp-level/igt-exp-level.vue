@@ -6,7 +6,7 @@
         <p>{{ progress.actual | numberFormat }} / {{ progress.target  | numberFormat }}</p>
 
       </div>
-      <igt-progress-bar :percentage="progressPercentage" fg-class="bg-green-600" bg-class="bg-green-200"></igt-progress-bar>
+      <igt-progress-bar :percentage="progressPercentage" fg-class="bg-purple-600" bg-class="bg-purple-200"></igt-progress-bar>
 
     </div>
   </div>

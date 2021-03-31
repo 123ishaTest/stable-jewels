@@ -14,6 +14,8 @@ import {UpgradeType} from "@/ig-template/tools/upgrades/UpgradeType";
 import {CurrencyBuilder} from "@/ig-template/features/wallet/CurrencyBuilder";
 import {ArrayBuilder} from "@/ig-template/util/ArrayBuilder";
 import {SingleLevelUpgrade} from "@/ig-template/tools/upgrades/SingleLevelUpgrade";
+import {WeightedDistribution} from "@/ig-template/tools/probability/WeightedDistribution";
+import {Outcome} from "@/ig-template/tools/probability/Outcome";
 
 export class ActionGenerator extends UpgradesFeature {
 
@@ -79,7 +81,7 @@ export class ActionGenerator extends UpgradesFeature {
                     )
                 )
             ),
-            ArrayBuilder.fromStartAndStepAdditive(0, 0.02, 26), 1
+            ArrayBuilder.fromStartAndStepAdditive(0, 0.1, 26), 1
         )
 
         this.highlightNegatives = new SingleLevelUpgrade(UpgradeId.HighlightNegative, UpgradeType.None, "Highlight Negatives",
@@ -192,10 +194,10 @@ export class ActionGenerator extends UpgradesFeature {
         const level = this.playerLevel.getLevel();
         const negativeProb = this.negativeProb;
         const possibleActions = [];
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 13; i++) {
             possibleActions.push(this.createCurrencyGain(level, negativeProb))
         }
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 7; i++) {
             possibleActions.push(this.createExpGain(level, negativeProb))
         }
         possibleActions.forEach(action => {
@@ -217,21 +219,13 @@ export class ActionGenerator extends UpgradesFeature {
 
     createCurrencyGain(level: number, negativeProb: number): GainCurrencyAction {
         const isNegative = Random.booleanWithProbability(negativeProb);
-        const isSapphire = Random.booleanWithProbability(0.7 - this.gemImprovement);
-        if (isSapphire) {
-            return this.createSapphire(level, isNegative)
-        }
-
-        const isEmerald = Random.booleanWithProbability(0.6 - this.gemImprovement);
-        if (isEmerald) {
-            return this.createEmerald(level, isNegative)
-
-        }
-        const isRuby = Random.booleanWithProbability(0.5 - this.gemImprovement);
-        if (isRuby) {
-            return this.createRuby(level, isNegative)
-        }
-        return this.createDiamond(level, isNegative)
+        const distribution = new WeightedDistribution([
+            new Outcome<GainCurrencyAction>(this.createSapphire(level, isNegative), 10 - this.gemImprovement),
+            new Outcome<GainCurrencyAction>(this.createEmerald(level, isNegative), 5 - this.gemImprovement / 2),
+            new Outcome<GainCurrencyAction>(this.createRuby(level, isNegative), 2 + this.gemImprovement / 2),
+            new Outcome<GainCurrencyAction>(this.createDiamond(level, isNegative), 1 + this.gemImprovement),
+        ])
+        return distribution.draw();
     }
 
     createSapphire(level: number, isNegative: boolean) {

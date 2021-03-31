@@ -4,10 +4,6 @@ import {CurrencyType} from "./CurrencyType";
 import {ISimpleEvent, SimpleEventDispatcher} from "strongly-typed-events";
 import {Feature} from "@/ig-template/features/Feature";
 import {WalletSaveData} from "@/ig-template/features/wallet/WalletSaveData";
-import {AbstractField} from "@/ig-template/developer-panel/fields/AbstractField";
-import {NumberField} from "@/ig-template/developer-panel/fields/NumberField";
-import {FunctionField} from "@/ig-template/developer-panel/fields/FunctionField";
-import {RangeField} from "@/ig-template/developer-panel/fields/RangeField";
 
 
 export class Wallet extends Feature {
@@ -143,14 +139,18 @@ export class Wallet extends Feature {
 
     public save(): WalletSaveData {
         return {
-            money: this._currencies[CurrencyType.Diamond],
-            secondary: this._currencies[CurrencyType.Ruby],
+            sapphire: this._currencies[CurrencyType.Sapphire],
+            emerald: this._currencies[CurrencyType.Emerald],
+            ruby: this._currencies[CurrencyType.Ruby],
+            diamond: this._currencies[CurrencyType.Diamond],
         }
     }
 
     public load(data: WalletSaveData): void {
-        this._currencies[CurrencyType.Diamond] = data.money ?? this._currencies[CurrencyType.Diamond];
-        this._currencies[CurrencyType.Ruby] = data.secondary ?? this._currencies[CurrencyType.Ruby];
+        this._currencies[CurrencyType.Sapphire] = data.sapphire ?? this._currencies[CurrencyType.Sapphire];
+        this._currencies[CurrencyType.Emerald] = data.emerald ?? this._currencies[CurrencyType.Emerald];
+        this._currencies[CurrencyType.Ruby] = data.ruby ?? this._currencies[CurrencyType.Ruby];
+        this._currencies[CurrencyType.Diamond] = data.diamond ?? this._currencies[CurrencyType.Diamond];
     }
 
     /**
@@ -179,16 +179,5 @@ export class Wallet extends Feature {
 
     public set money(value: number) {
         this._currencies.Diamond = value;
-    }
-
-
-    getDeveloperPanelFields(): AbstractField[] {
-        return [
-            new NumberField('money', 'Money'),
-            new FunctionField(() => {
-                this.money = 10
-            }, 'Set money to 10').setCssClass('btn-blue'),
-            new RangeField('money', 0, 100, 2, 'Money Slider'),
-        ]
     }
 }
