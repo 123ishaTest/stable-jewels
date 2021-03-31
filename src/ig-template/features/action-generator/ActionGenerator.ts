@@ -271,11 +271,13 @@ export class ActionGenerator extends UpgradesFeature {
 
     save(): ActionGeneratorSaveData {
         return {
+            exp: this.playerLevel.exp,
             ...super.save(),
         };
     }
 
     load(data: ActionGeneratorSaveData) {
         super.load(data);
+        this.playerLevel.exp = data.exp ?? this.playerLevel.exp;
     }
 }
