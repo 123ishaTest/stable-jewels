@@ -13,6 +13,7 @@ import {UpgradeId} from "@/ig-template/tools/upgrades/UpgradeId";
 import {UpgradeType} from "@/ig-template/tools/upgrades/UpgradeType";
 import {CurrencyBuilder} from "@/ig-template/features/wallet/CurrencyBuilder";
 import {ArrayBuilder} from "@/ig-template/util/ArrayBuilder";
+import {SingleLevelUpgrade} from "@/ig-template/tools/upgrades/SingleLevelUpgrade";
 
 export class ActionGenerator extends UpgradesFeature {
 
@@ -23,6 +24,7 @@ export class ActionGenerator extends UpgradesFeature {
     maxActionsUpgrade: DiscreteUpgrade;
     negativeRateUpgrade: DiscreteUpgrade;
     betterGems: DiscreteUpgrade;
+    highlightNegatives: SingleLevelUpgrade;
 
     public checkCounter: number = 0;
 
@@ -39,17 +41,17 @@ export class ActionGenerator extends UpgradesFeature {
         )
 
         this.maxActionsUpgrade = new DiscreteUpgrade(UpgradeId.MaxActions, UpgradeType.None, "Max Actions", 20,
-            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 20), CurrencyType.Emerald),
+            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 20), CurrencyType.Emerald),
             ArrayBuilder.fromStartAndStepAdditive(5, 1, 21), 1
         )
 
         this.negativeRateUpgrade = new DiscreteUpgrade(UpgradeId.NegativeRate, UpgradeType.None, "Negative Chance", 10,
-            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 10), CurrencyType.Ruby),
+            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 10), CurrencyType.Ruby),
             ArrayBuilder.fromStartAndStepAdditive(0.5, -0.05, 11), 1
         )
 
 
-        this.betterGems = new DiscreteUpgrade(UpgradeId.NegativeRate, UpgradeType.None, "Better Gem Chance", 25,
+        this.betterGems = new DiscreteUpgrade(UpgradeId.BetterGems, UpgradeType.None, "Better Gem Chance", 25,
             CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 7), CurrencyType.Sapphire).concat(
                 CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 7), CurrencyType.Emerald).concat(
                     CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 7), CurrencyType.Ruby).concat(
@@ -60,6 +62,10 @@ export class ActionGenerator extends UpgradesFeature {
             ),
             ArrayBuilder.fromStartAndStepAdditive(0, 0.02, 26), 1
         )
+
+        this.highlightNegatives = new SingleLevelUpgrade(UpgradeId.HighlightNegative, UpgradeType.None, "Highlight Negatives",
+            new Currency(200, CurrencyType.Emerald), 1);
+
         this.upgrades = [
             this.refreshDurationUpgrade,
             this.maxActionsUpgrade,
@@ -85,6 +91,9 @@ export class ActionGenerator extends UpgradesFeature {
         }
     }
 
+    get highlightNegativeActions(): boolean {
+        return this.highlightNegatives.isBought()
+    }
 
     get switchTime() {
         return this.refreshDurationUpgrade.getBonus();
@@ -127,14 +136,14 @@ export class ActionGenerator extends UpgradesFeature {
         for (let i = 0; i < 15; i++) {
             possibleActions.push(this.createCurrencyGain(level, negativeProb))
         }
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 15; i++) {
             possibleActions.push(this.createExpGain(level, negativeProb))
         }
         return Random.fromArray(possibleActions);
     }
 
     createExpGain(level: number, negativeProb: number) {
-        let benefit = Math.floor(3 + level ^ 2);
+        let benefit = Math.floor(3 + Math.pow(level + 2, 2));
         let duration = Random.fuzzInt(benefit * 3, 0.3);
         const isNegative = Random.booleanWithProbability(negativeProb);
         if (isNegative) {
