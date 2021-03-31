@@ -1,7 +1,7 @@
 <template>
   <igt-feature class="text-white">
 
-    <igt-exp-level :exp-level="level"></igt-exp-level>
+    <igt-exp-level class="m-1" title="Each level increases jewel rewards" :exp-level="level"></igt-exp-level>
 
     <div class="flex flex-row flex-wrap">
       <sj-time-upgrade :upgrade="refreshUpgrade" :can-buy="generator.canAfford(refreshUpgrade)"
@@ -33,14 +33,15 @@
 
     </div>
 
-    <div class="my-2 flex flex-col">
+    <div class="m-2 flex flex-col">
       <div class="flex flex-row justify-between">
-        <span>Refreshing in...</span>
+        <span>Refreshing actions in...</span>
         <span class=""><span class="fa fa-clock"></span> {{ generator.switchTime }}</span>
       </div>
       <igt-progress-bar :percentage="refreshProgress" fg-class="bg-gray-500" bg-class="bg-gray-600"></igt-progress-bar>
 
     </div>
+    <p class="m-2"><span class="fa fa-lock"></span> Locks used {{generator.currentLock}} / {{generator.maxLock}}</p>
     <div class="flex flex-row flex-wrap">
       <igt-action :action="action"
                   :index="index"

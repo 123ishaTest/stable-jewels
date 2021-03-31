@@ -4,9 +4,9 @@
       <span>{{ upgrade.displayName }}</span>
       <span>Lvl. {{ upgrade.level }} / {{ upgrade.maxLevel }}</span>
       <span><span class="fa fa-clock"></span>
-        {{ upgrade.getBonus() }}
+        {{ upgrade.getBonus() | numberFormat }}
           <span v-if="!upgrade.isMaxLevel()">
-            (+{{ upgrade.getUpgradeBonus() }})
+            (+{{ upgrade.getUpgradeBonus() | numberFormat }})
           </span>
       </span>
       <span v-if="!upgrade.isMaxLevel()">

@@ -4,9 +4,9 @@
       <span>{{ upgrade.displayName }}</span>
       <span>Lvl. {{ upgrade.level }} / {{ upgrade.maxLevel }}</span>
       <span>
-        {{ upgrade.getBonus() }}
+        {{ upgrade.getBonus() | numberFormat }}
           <span v-if="!upgrade.isMaxLevel()">
-            (<span v-if="upgrade.getUpgradeBonus() > 0">+</span>{{ upgrade.getUpgradeBonus() }})
+            (<span v-if="upgrade.getUpgradeBonus() > 0">+</span>{{ upgrade.getUpgradeBonus() | numberFormat }})
           </span>
       </span>      <span v-if="!upgrade.isMaxLevel()">
         <sj-currency :currency="upgrade.getCost()"></sj-currency>

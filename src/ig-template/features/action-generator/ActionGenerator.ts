@@ -45,9 +45,9 @@ export class ActionGenerator extends UpgradesFeature {
             ArrayBuilder.fromStartAndStepAdditive(10, 5, 11),1
         )
 
-        this.maxActionsUpgrade = new DiscreteUpgrade(UpgradeId.MaxActions, UpgradeType.None, "Max Actions", 20,
-            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(10, 30, 20), CurrencyType.Emerald),
-            ArrayBuilder.fromStartAndStepAdditive(5, 1, 21), 1
+        this.maxActionsUpgrade = new DiscreteUpgrade(UpgradeId.MaxActions, UpgradeType.None, "Max Actions", 30,
+            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(10, 40, 20), CurrencyType.Emerald),
+            ArrayBuilder.fromStartAndStepAdditive(5, 1, 31), 1
         )
 
         this.negativeRateUpgrade = new DiscreteUpgrade(UpgradeId.NegativeRate, UpgradeType.None, "Negative Chance", 10,
