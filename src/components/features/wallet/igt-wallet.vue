@@ -60,33 +60,33 @@ export default {
   methods: {
     changeMoneyMultiplier(delta) {
       const oldValue = this.moneyMultiplier;
-      this.wallet.setCurrencyMultiplier(oldValue + delta, CurrencyType.Money);
+      this.wallet.setCurrencyMultiplier(oldValue + delta, CurrencyType.Diamond);
     },
     gainMoney(amount) {
-      this.wallet.gainCurrency(new Currency(amount, CurrencyType.Money));
+      this.wallet.gainCurrency(new Currency(amount, CurrencyType.Diamond));
     },
     gainSecondary(amount) {
-      this.wallet.gainCurrency(new Currency(amount, CurrencyType.Secondary));
+      this.wallet.gainCurrency(new Currency(amount, CurrencyType.Ruby));
     },
     loseMoney(amount) {
-      this.wallet.payIfPossible(new Currency(amount, CurrencyType.Money));
+      this.wallet.payIfPossible(new Currency(amount, CurrencyType.Diamond));
     },
     hasMoney(amount) {
-      return this.wallet.hasCurrency(new Currency(amount, CurrencyType.Money));
+      return this.wallet.hasCurrency(new Currency(amount, CurrencyType.Diamond));
     }
   },
   computed: {
     money() {
-      return this.wallet._currencies[CurrencyType.Money];
+      return this.wallet._currencies[CurrencyType.Diamond];
     },
     moneyMultiplier() {
-      return this.wallet.getCurrencyMultiplier(CurrencyType.Money);
+      return this.wallet.getCurrencyMultiplier(CurrencyType.Diamond);
     },
     secondary() {
-      return this.wallet._currencies[CurrencyType.Secondary];
+      return this.wallet._currencies[CurrencyType.Ruby];
     },
     secondaryMultiplier() {
-      return this.wallet.getCurrencyMultiplier(CurrencyType.Secondary);
+      return this.wallet.getCurrencyMultiplier(CurrencyType.Ruby);
     },
   },
 

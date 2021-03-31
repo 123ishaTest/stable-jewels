@@ -19,7 +19,7 @@ export class RedeemableCodes extends Feature {
     initialize(features: Features) {
         this.list.push(
             new RedeemableCode(RedeemableCodeId.exampleCode, 'Example code that gives 100 money, the key is "DUMMY"', 65408136, () => {
-                features.wallet.gainCurrency(new Currency(100, CurrencyType.Money));
+                features.wallet.gainCurrency(new Currency(100, CurrencyType.Diamond));
             })
         );
     }

@@ -21,10 +21,10 @@ export class MoneyPouch extends AbstractConsumable {
     }
 
     consume(): void {
-        this._wallet.gainCurrency(new Currency(this.moneyToGain, CurrencyType.Money));
+        this._wallet.gainCurrency(new Currency(this.moneyToGain, CurrencyType.Diamond));
     }
 
     consumeMultiple(amount: number) {
-        this._wallet.gainCurrency(new Currency(this.moneyToGain * amount, CurrencyType.Money));
+        this._wallet.gainCurrency(new Currency(this.moneyToGain * amount, CurrencyType.Diamond));
     }
 }

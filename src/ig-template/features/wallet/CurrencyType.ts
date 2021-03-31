@@ -1,4 +1,6 @@
 export enum CurrencyType {
-    Money = "Money",
-    Secondary = "Secondary",
+    Sapphire = "Sapphire",
+    Emerald = "Emerald",
+    Ruby = "Ruby",
+    Diamond = "Diamond",
 }

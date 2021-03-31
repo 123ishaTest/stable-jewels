@@ -48,7 +48,7 @@ export class ExampleFeature extends UpgradesFeature {
             UpgradeType.Money,
             'Discrete Upgrade',
             20,
-            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(10, 10, 20), CurrencyType.Money),
+            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(10, 10, 20), CurrencyType.Diamond),
             ArrayBuilder.fromStartAndStepAdditive(1, 1, 21));
         this.moneyMultiplicativeUpgrade = new ContinuousUpgrade(
             UpgradeId.MoneyMultiplicative,
@@ -58,10 +58,10 @@ export class ExampleFeature extends UpgradesFeature {
             (level) => {
                 return 1 + level;
             }, (level) => {
-                return new Currency(level * 10, CurrencyType.Money);
+                return new Currency(level * 10, CurrencyType.Diamond);
             })
 
-        this.singleLevelUpgrade = new SingleLevelUpgrade(UpgradeId.SingleLevel, UpgradeType.None, 'Single Level', new Currency(1000, CurrencyType.Money), 1);
+        this.singleLevelUpgrade = new SingleLevelUpgrade(UpgradeId.SingleLevel, UpgradeType.None, 'Single Level', new Currency(1000, CurrencyType.Diamond), 1);
 
         this.upgrades = [
             this.moneyAdditiveUpgrade,
@@ -88,7 +88,7 @@ export class ExampleFeature extends UpgradesFeature {
     }
 
     update(delta: number) {
-        this._wallet.gainCurrency(new Currency(this.moneyPerSecond() * delta, CurrencyType.Money));
+        this._wallet.gainCurrency(new Currency(this.moneyPerSecond() * delta, CurrencyType.Diamond));
         this.exampleSkill.gainExperience(this.moneyPerSecond() * delta / 10);
         this.fishAction.perform(delta);
         this.recipeAction.perform(delta);

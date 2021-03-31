@@ -147,14 +147,14 @@ export class Wallet extends Feature {
 
     public save(): WalletSaveData {
         return {
-            money: this._currencies[CurrencyType.Money],
-            secondary: this._currencies[CurrencyType.Secondary],
+            money: this._currencies[CurrencyType.Diamond],
+            secondary: this._currencies[CurrencyType.Ruby],
         }
     }
 
     public load(data: WalletSaveData): void {
-        this._currencies[CurrencyType.Money] = data.money ?? this._currencies[CurrencyType.Money];
-        this._currencies[CurrencyType.Secondary] = data.secondary ?? this._currencies[CurrencyType.Secondary];
+        this._currencies[CurrencyType.Diamond] = data.money ?? this._currencies[CurrencyType.Diamond];
+        this._currencies[CurrencyType.Ruby] = data.secondary ?? this._currencies[CurrencyType.Ruby];
     }
 
     /**
@@ -166,11 +166,11 @@ export class Wallet extends Feature {
     }
 
     public get money(): number {
-        return this._currencies.Money;
+        return this._currencies.Diamond;
     }
 
     public set money(value: number) {
-        this._currencies.Money = value;
+        this._currencies.Diamond = value;
     }
 
 
