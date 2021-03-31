@@ -4,8 +4,12 @@
     <igt-exp-level :exp-level="level"></igt-exp-level>
 
     <div class="flex flex-row flex-wrap">
-      <sj-time-upgrade :upgrade="refreshUpgrade" :can-buy="generator._wallet.hasCurrency(refreshUpgrade.getCost())"
+      <sj-time-upgrade :upgrade="refreshUpgrade" :can-buy="generator.canAfford(refreshUpgrade)"
                        @click.native="generator.buyUpgrade(refreshUpgrade)"></sj-time-upgrade>
+      <igt-upgrade :upgrade="maxActionUpgrade" :can-buy="generator.canAfford(maxActionUpgrade)"
+                   @click.native="generator.buyUpgrade(maxActionUpgrade)"></igt-upgrade>
+      <igt-upgrade :upgrade="negativeRateUpgrade" :can-buy="generator.canAfford(negativeRateUpgrade)"
+                   @click.native="generator.buyUpgrade(negativeRateUpgrade)"></igt-upgrade>
     </div>
 
     <div class="my-2 flex flex-col">
@@ -34,10 +38,11 @@ import IgtExpLevel from "@/components/tools/exp-level/igt-exp-level";
 import IgtAction from "@/components/tools/actions/igt-action";
 import IgtProgressBar from "@/components/util/igt-progress-bar";
 import SjTimeUpgrade from "@/components/tools/upgrades/sj-time-upgrade";
+import IgtUpgrade from "@/components/tools/upgrades/igt-discrete-upgrade";
 
 export default {
   name: "sj-action-generator",
-  components: {SjTimeUpgrade, IgtProgressBar, IgtAction, IgtExpLevel, IgtFeature},
+  components: {IgtUpgrade, SjTimeUpgrade, IgtProgressBar, IgtAction, IgtExpLevel, IgtFeature},
   data() {
     return {
       generator: App.game.features.actionGenerator,
@@ -46,6 +51,12 @@ export default {
   computed: {
     refreshUpgrade() {
       return this.generator.refreshDurationUpgrade
+    },
+    maxActionUpgrade() {
+      return this.generator.maxActionsUpgrade
+    },
+    negativeRateUpgrade() {
+      return this.generator.negativeRateUpgrade
     },
     upgrades() {
       return this.generator.upgrades;

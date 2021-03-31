@@ -20,6 +20,8 @@ export class ActionGenerator extends UpgradesFeature {
     playerLevel: ContinuousExpLevel;
 
     refreshDurationUpgrade: DiscreteUpgrade;
+    maxActionsUpgrade: DiscreteUpgrade;
+    negativeRateUpgrade: DiscreteUpgrade;
 
     public checkCounter: number = 0;
 
@@ -34,8 +36,20 @@ export class ActionGenerator extends UpgradesFeature {
             CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 10), CurrencyType.Sapphire),
             ArrayBuilder.fromStartAndStepAdditive(30, 10, 11),
         )
+
+        this.maxActionsUpgrade = new DiscreteUpgrade(UpgradeId.MaxActions, UpgradeType.None, "Max Actions", 20,
+            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 20), CurrencyType.Emerald),
+            ArrayBuilder.fromStartAndStepAdditive(5, 1, 21), 1
+        )
+
+        this.negativeRateUpgrade = new DiscreteUpgrade(UpgradeId.NegativeRate, UpgradeType.None, "Negative Chance", 10,
+            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 10), CurrencyType.Ruby),
+            ArrayBuilder.fromStartAndStepAdditive(0.5, -0.05, 11), 1
+        )
         this.upgrades = [
             this.refreshDurationUpgrade,
+            this.maxActionsUpgrade,
+            this.negativeRateUpgrade,
         ]
     }
 
@@ -61,8 +75,12 @@ export class ActionGenerator extends UpgradesFeature {
         return this.refreshDurationUpgrade.getBonus();
     }
 
+    get negativeProb() {
+        return this.negativeRateUpgrade.getBonus()
+    }
+
     get maxActionCount() {
-        return 5;
+        return this.maxActionsUpgrade.getBonus();
     }
 
     initialize(features: Features) {
@@ -85,7 +103,7 @@ export class ActionGenerator extends UpgradesFeature {
 
     private getAction(): JewelAction {
         const level = this.playerLevel.getLevel();
-        const negativeProb = 0.2;
+        const negativeProb = this.negativeProb;
         const possibleActions = [];
         for (let i = 0; i < 15; i++) {
             possibleActions.push(this.createCurrencyGain(level, negativeProb))

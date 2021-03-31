@@ -9,10 +9,11 @@ export class DiscreteUpgrade extends AbstractUpgrade {
     costList: Currency[] = [];
     bonusList: number[] = []
 
-    constructor(id: UpgradeId, type: UpgradeType, displayName: string, maxLevel: number, costList: Currency[], bonusList: number[]) {
+    constructor(id: UpgradeId, type: UpgradeType, displayName: string, maxLevel: number, costList: Currency[], bonusList: number[], baseLevel: number = 1) {
         super(id, type, displayName, maxLevel);
         this.costList = costList;
         this.bonusList = bonusList;
+        this.level = baseLevel;
         if (this.costList.length + 1 !== this.bonusList.length) {
             throw new Error(`BonusList must have a length 1 larger than CostList, got (${this.bonusList.length}) and (${this.costList.length}) respectively`)
         }

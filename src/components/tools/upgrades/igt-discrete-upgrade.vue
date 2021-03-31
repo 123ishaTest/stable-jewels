@@ -3,8 +3,12 @@
     <span class="flex flex-col">
       <span>{{ upgrade.displayName }}</span>
       <span>Lvl. {{ upgrade.level }} / {{ upgrade.maxLevel }}</span>
-      <span>{{upgrade.getBonus()}}</span>
-      <span v-if="!upgrade.isMaxLevel()">
+      <span>
+        {{ upgrade.getBonus() }}
+          <span v-if="!upgrade.isMaxLevel()">
+            (<span v-if="upgrade.getUpgradeBonus() > 0">+</span>{{ upgrade.getUpgradeBonus() }})
+          </span>
+      </span>      <span v-if="!upgrade.isMaxLevel()">
         <sj-currency :currency="upgrade.getCost()"></sj-currency>
       </span>
       <span v-else>Max</span>

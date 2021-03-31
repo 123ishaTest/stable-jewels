@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row justify-center">
-    <span>{{ currency.amount }}</span>
+    <span class="mr-2">{{ currency.amount }}</span>
     <span v-if="currency.type === CurrencyType.Sapphire">
             <img class="w-8 h-8" :src="require('@/assets/images/currencies/sapphire.svg')">
     </span>
