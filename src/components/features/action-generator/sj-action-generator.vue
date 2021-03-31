@@ -4,7 +4,9 @@
     <igt-exp-level :exp-level="level"></igt-exp-level>
     <div class="my-2 flex flex-col">
       <span>Refreshing in...</span>
+      <span class="absolute right-4"><span class="fa fa-clock"></span> {{ generator.GENERATOR_CHECK_TIME }}</span>
       <igt-progress-bar :percentage="refreshProgress" fg-class="bg-gray-500" bg-class="bg-gray-600"></igt-progress-bar>
+
     </div>
     <div class="flex flex-row flex-wrap space-x-4">
       <igt-action :action="action"
