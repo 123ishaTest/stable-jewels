@@ -22,7 +22,11 @@ export class ActionGenerator extends UpgradesFeature {
 
         this.playerLevel = new ContinuousExpLevel(100, (level) => {
             return 1 / 8 * (level ** 2 - level + 600 * (2 ** (level / 7) - 2 ** (1 / 7)) / (2 ** (1 / 7) - 1))
-        })
+        },)
+    }
+
+
+    start() {
         this.generateNewActions();
     }
 
@@ -36,7 +40,6 @@ export class ActionGenerator extends UpgradesFeature {
 
     initialize(features: Features) {
         this._wallet = features.wallet;
-
     }
 
     private generateNewActions() {
@@ -54,11 +57,96 @@ export class ActionGenerator extends UpgradesFeature {
     }
 
     private getAction(): JewelAction {
+        const level = this.playerLevel.getLevel();
+        const negativeProb = 0.2;
         const possibleActions = [
             new GainExpAction(3, this.playerLevel, 10),
-            new GainCurrencyAction(3, new Currency(4, CurrencyType.Emerald), this._wallet),
+            this.createCurrencyGain(level, negativeProb),
+            this.createCurrencyGain(level, negativeProb),
+            this.createCurrencyGain(level, negativeProb),
+            this.createCurrencyGain(level, negativeProb),
+            this.createCurrencyGain(level, negativeProb),
+            this.createCurrencyGain(level, negativeProb),
+            this.createCurrencyGain(level, negativeProb),
+            this.createCurrencyGain(level, negativeProb),
+            this.createCurrencyGain(level, negativeProb),
+            this.createCurrencyGain(level, negativeProb),
+            this.createCurrencyGain(level, negativeProb),
+            this.createCurrencyGain(level, negativeProb),
+            this.createCurrencyGain(level, negativeProb),
+            this.createCurrencyGain(level, negativeProb),
+            this.createCurrencyGain(level, negativeProb),
         ]
         return Random.fromArray(possibleActions);
+    }
+
+    createExpGain(level: number, negativeProb: number) {
+        let benefit = Math.floor(3 + level ^ 2);
+        const isNegative = Random.booleanWithProbability(negativeProb);
+        if (isNegative) {
+            benefit *= -4 / 5;
+        }
+        return new GainExpAction(Random.fuzzInt(benefit * 5, 0.3), this.playerLevel, Random.fuzzInt(benefit, 0.2))
+    }
+
+    createCurrencyGain(level: number, negativeProb: number): GainCurrencyAction {
+        const isNegative = Random.booleanWithProbability(negativeProb);
+        const isSapphire = Random.booleanWithProbability(0.7);
+        if (isSapphire) {
+            return this.createSapphire(level, isNegative)
+        }
+
+        const isEmerald = Random.booleanWithProbability(0.6);
+        if (isEmerald) {
+            return this.createEmerald(level, isNegative)
+
+        }
+        const isRuby = Random.booleanWithProbability(0.5);
+        if (isRuby) {
+            return this.createRuby(level, isNegative)
+        }
+        return this.createDiamond(level, isNegative)
+    }
+
+    createSapphire(level: number, isNegative: boolean) {
+        if (isNegative) {
+            level = Math.min(1, level - 5);
+        }
+        let benefit = Random.intBetween(10, 10 + 6 * level)
+        if (isNegative) {
+            benefit *= -1;
+        }
+        return new GainCurrencyAction(10, new Currency(benefit, CurrencyType.Sapphire), this._wallet)
+    }
+
+    createEmerald(level: number, isNegative: boolean) {
+        if (isNegative) {
+            level = Math.min(1, level - 3);
+        }
+        let benefit = Random.intBetween(6, 6 + 4 * level)
+        if (isNegative) {
+            benefit *= -1;
+        }
+        return new GainCurrencyAction(30, new Currency(benefit, CurrencyType.Emerald), this._wallet)
+    }
+
+    createRuby(level: number, isNegative: boolean) {
+        if (isNegative) {
+            level = Math.min(1, level - 2);
+        }
+        let benefit = Random.intBetween(3, 3 + 3 * level)
+        if (isNegative) {
+            benefit *= -1;
+        }
+        return new GainCurrencyAction(60, new Currency(benefit, CurrencyType.Ruby), this._wallet)
+    }
+
+    createDiamond(level: number, isNegative: boolean) {
+        let benefit = isNegative ? -1 : 1 + Math.floor(level / 5);
+        if (isNegative) {
+            benefit *= -1;
+        }
+        return new GainCurrencyAction(120, new Currency(benefit, CurrencyType.Diamond), this._wallet)
     }
 
     update(delta: number) {

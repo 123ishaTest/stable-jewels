@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 bg-green-500 w-72 h-36 border-green-700 border-4 shadow-lg hover-highlight flex flex-row items-center"
+  <div class="p-4 bg-green-500 w-72 h-36 border-green-700 border-4 shadow-lg hover-highlight flex flex-row items-center cursor-pointer"
        @click="action.toggle()">
     <div class="flex flex-col w-full space-y-1">
       <p class="text-center text-white">{{ action.description }}</p>

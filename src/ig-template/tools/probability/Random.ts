@@ -9,6 +9,14 @@ export class Random {
     }
 
     /**
+     * Use ratio 0.10 to fuzz the number 80 between 72 and 88.
+     */
+    static fuzzInt(number: number, ratio: number): number {
+        return this.intBetween((1-ratio) * number, (1 + ratio) * number);
+    }
+
+
+    /**
      * Return a boolean with probability [0, 1] to be true.
      * Returns false if the probability is not in this range. Can be ignored with the second argument requireNormalizedProbability.
      */
