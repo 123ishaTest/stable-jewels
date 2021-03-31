@@ -41,8 +41,8 @@ export class ActionGenerator extends UpgradesFeature {
         })
 
         this.refreshDurationUpgrade = new DiscreteUpgrade(UpgradeId.ActionRefreshDuration, UpgradeType.None, "Refresh Duration", 10,
-            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 10), CurrencyType.Sapphire),
-            ArrayBuilder.fromStartAndStepAdditive(15, 5, 11),0
+            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(0, 50, 10), CurrencyType.Sapphire),
+            ArrayBuilder.fromStartAndStepAdditive(10, 5, 11),1
         )
 
         this.maxActionsUpgrade = new DiscreteUpgrade(UpgradeId.MaxActions, UpgradeType.None, "Max Actions", 20,
@@ -55,21 +55,21 @@ export class ActionGenerator extends UpgradesFeature {
             ArrayBuilder.fromStartAndStepAdditive(0.5, -0.05, 11), 1
         )
 
-        this.speedBoostUpgrade = new DiscreteUpgrade(UpgradeId.SpeedBoost, UpgradeType.None, "Speed boost", 20,
-            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 5), CurrencyType.Sapphire).concat(
-                CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 5), CurrencyType.Emerald).concat(
-                    CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 5), CurrencyType.Ruby).concat(
-                        CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(25, 25, 5), CurrencyType.Diamond).concat(
+        this.speedBoostUpgrade = new DiscreteUpgrade(UpgradeId.SpeedBoost, UpgradeType.None, "Speed boost", 30,
+            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 10), CurrencyType.Sapphire).concat(
+                CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 8), CurrencyType.Emerald).concat(
+                    CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 8), CurrencyType.Ruby).concat(
+                        CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(25, 25, 4), CurrencyType.Diamond).concat(
                         )
                     )
                 )
             ),
-            ArrayBuilder.fromStartAndStepAdditive(1, 0.1, 21), 0
+            ArrayBuilder.fromStartAndStepAdditive(1, 0.1, 31), 0
         )
 
         this.locks = new DiscreteUpgrade(UpgradeId.Locks, UpgradeType.None, "Lock Actions", 5,
-            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(1, 5, 5), CurrencyType.Diamond),
-            ArrayBuilder.fromStartAndStepAdditive(0, 1, 6), 0
+            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(-4, 5, 5), CurrencyType.Diamond),
+            ArrayBuilder.fromStartAndStepAdditive(0, 1, 6), 1
         )
 
 
@@ -77,19 +77,19 @@ export class ActionGenerator extends UpgradesFeature {
             CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 12), CurrencyType.Sapphire).concat(
                 CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 7), CurrencyType.Emerald).concat(
                     CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 7), CurrencyType.Ruby).concat(
-                        CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(25, 25, 4), CurrencyType.Diamond).concat(
+                        CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(20, 20, 4), CurrencyType.Diamond).concat(
                         )
                     )
                 )
             ),
-            ArrayBuilder.fromStartAndStepAdditive(0, 0.1, 31), 1
+            ArrayBuilder.fromStartAndStepAdditive(0, 0.15, 31), 1
         )
 
         this.highlightNegatives = new SingleLevelUpgrade(UpgradeId.HighlightNegative, UpgradeType.None, "Highlight Negatives",
             new Currency(200, CurrencyType.Emerald), 1);
 
         this.completeTheGame = new SingleLevelUpgrade(UpgradeId.CompleteTheGame, UpgradeType.None, "Complete the game",
-            new Currency(2500, CurrencyType.Diamond), 1);
+            new Currency(500, CurrencyType.Diamond), 1);
 
         this.upgrades = [
             this.refreshDurationUpgrade,
@@ -225,10 +225,10 @@ export class ActionGenerator extends UpgradesFeature {
     createCurrencyGain(level: number, negativeProb: number): GainCurrencyAction {
         const isNegative = Random.booleanWithProbability(negativeProb);
         const distribution = new WeightedDistribution([
-            new Outcome<GainCurrencyAction>(this.createSapphire(level, isNegative), 10 - this.gemImprovement),
+            new Outcome<GainCurrencyAction>(this.createSapphire(level, isNegative), 8 - this.gemImprovement),
             new Outcome<GainCurrencyAction>(this.createEmerald(level, isNegative), 5 - this.gemImprovement / 2),
             new Outcome<GainCurrencyAction>(this.createRuby(level, isNegative), 2 + this.gemImprovement / 2),
-            new Outcome<GainCurrencyAction>(this.createDiamond(level, isNegative), 1 + this.gemImprovement),
+            new Outcome<GainCurrencyAction>(this.createDiamond(level, isNegative), -1 + this.gemImprovement),
         ])
         return distribution.draw();
     }
@@ -267,7 +267,7 @@ export class ActionGenerator extends UpgradesFeature {
     }
 
     createDiamond(level: number, isNegative: boolean) {
-        let benefit = isNegative ? -1 : 1 + Math.floor(level / 5);
+        let benefit = isNegative ? -1 : 1 + Math.floor(level / 4);
         if (isNegative) {
             benefit *= -1;
         }
