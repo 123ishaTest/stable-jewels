@@ -41,7 +41,7 @@ export class ActionGenerator extends UpgradesFeature {
 
         this.refreshDurationUpgrade = new DiscreteUpgrade(UpgradeId.ActionRefreshDuration, UpgradeType.None, "Refresh Duration", 10,
             CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 10), CurrencyType.Sapphire),
-            ArrayBuilder.fromStartAndStepAdditive(30, 10, 11),
+            ArrayBuilder.fromStartAndStepAdditive(15, 5, 11),0
         )
 
         this.maxActionsUpgrade = new DiscreteUpgrade(UpgradeId.MaxActions, UpgradeType.None, "Max Actions", 20,
@@ -207,7 +207,7 @@ export class ActionGenerator extends UpgradesFeature {
     }
 
     createExpGain(level: number, negativeProb: number) {
-        let benefit = Math.floor(3 + Math.pow(level + 2, 2));
+        let benefit = Math.floor(3 + Math.pow(level + 2, 1.4));
         let duration = Math.max(12, Random.fuzzInt(Math.sqrt(benefit * 5), 0.3));
         const isNegative = Random.booleanWithProbability(negativeProb);
         if (isNegative) {
