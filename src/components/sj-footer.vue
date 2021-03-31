@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-32 bg-gray-500 shadow-xl flex flex-col items-center justify-around text-white">
+  <div class="w-full p-4 bg-gray-500 shadow-xl flex flex-col items-center justify-around text-white space-y-4">
     <p>123IshaTest Games</p>
     <p>Made with the Incremental Game Template</p>
     <div class="flex flex-row space-x-4">
@@ -19,6 +19,7 @@
         </a>
       </span>
     </div>
+
   </div>
 </template>
 
