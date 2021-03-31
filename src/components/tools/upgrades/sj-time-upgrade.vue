@@ -3,7 +3,12 @@
     <span class="flex flex-col">
       <span>{{ upgrade.displayName }}</span>
       <span>Lvl. {{ upgrade.level }} / {{ upgrade.maxLevel }}</span>
-      <span>{{upgrade.getBonus()}}</span>
+      <span><span class="fa fa-clock"></span>
+        {{ upgrade.getBonus() }}
+          <span v-if="!upgrade.isMaxLevel()">
+            (+{{ upgrade.getUpgradeBonus() }})
+          </span>
+      </span>
       <span v-if="!upgrade.isMaxLevel()">
         <sj-currency :currency="upgrade.getCost()"></sj-currency>
       </span>
@@ -19,7 +24,7 @@ import {AbstractUpgrade} from "@/ig-template/tools/upgrades/AbstractUpgrade";
 import SjCurrency from "@/components/features/action-generator/sj-currency";
 
 export default {
-  name: "igt-upgrade",
+  name: "sj-time-upgrade",
   components: {SjCurrency},
   props: {
     upgrade: {

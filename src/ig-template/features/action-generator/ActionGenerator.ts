@@ -8,14 +8,19 @@ import {Random} from "@/ig-template/tools/probability/Random";
 import {GainCurrencyAction} from "@/ig-template/features/action-generator/actions/GainCurrencyAction";
 import {CurrencyType} from "@/ig-template/features/wallet/CurrencyType";
 import {Currency} from "@/ig-template/features/wallet/Currency";
+import {DiscreteUpgrade} from "@/ig-template/tools/upgrades/DiscreteUpgrade";
+import {UpgradeId} from "@/ig-template/tools/upgrades/UpgradeId";
+import {UpgradeType} from "@/ig-template/tools/upgrades/UpgradeType";
+import {CurrencyBuilder} from "@/ig-template/features/wallet/CurrencyBuilder";
+import {ArrayBuilder} from "@/ig-template/util/ArrayBuilder";
 
 export class ActionGenerator extends UpgradesFeature {
 
     actions: JewelAction[] = [];
     playerLevel: ContinuousExpLevel;
 
+    refreshDurationUpgrade: DiscreteUpgrade;
 
-    public readonly GENERATOR_CHECK_TIME: number = 60;
     public checkCounter: number = 0;
 
     constructor() {
@@ -23,7 +28,15 @@ export class ActionGenerator extends UpgradesFeature {
 
         this.playerLevel = new ContinuousExpLevel(100, (level) => {
             return 1 / 8 * (level ** 2 - level + 600 * (2 ** (level / 7) - 2 ** (1 / 7)) / (2 ** (1 / 7) - 1))
-        },)
+        })
+
+        this.refreshDurationUpgrade = new DiscreteUpgrade(UpgradeId.ActionRefreshDuration, UpgradeType.None, "Upgrade refresh duration", 10,
+            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 10), CurrencyType.Sapphire),
+            ArrayBuilder.fromStartAndStepAdditive(30, 10, 11),
+        )
+        this.upgrades = [
+            this.refreshDurationUpgrade,
+        ]
     }
 
 
@@ -31,8 +44,21 @@ export class ActionGenerator extends UpgradesFeature {
         this.generateNewActions();
     }
 
+    update(delta: number) {
+        this.actions.forEach(action => {
+            action.perform(delta);
+        })
+
+        this.checkCounter += delta;
+        if (this.checkCounter >= this.switchTime) {
+            this.generateNewActions();
+            this.checkCounter = 0;
+        }
+    }
+
+
     get switchTime() {
-        return 60;
+        return this.refreshDurationUpgrade.getBonus();
     }
 
     get maxActionCount() {
@@ -140,20 +166,6 @@ export class ActionGenerator extends UpgradesFeature {
         }
         return new GainCurrencyAction(120, new Currency(benefit, CurrencyType.Diamond), this._wallet)
     }
-
-    update(delta: number) {
-        this.actions.forEach(action => {
-            action.perform(delta);
-        })
-
-        this.checkCounter += delta;
-        if (this.checkCounter >= this.GENERATOR_CHECK_TIME) {
-            this.generateNewActions();
-            this.checkCounter = 0;
-        }
-
-    }
-
 
     save(): ActionGeneratorSaveData {
         return {
