@@ -3,13 +3,16 @@
 
     <igt-exp-level :exp-level="level"></igt-exp-level>
     <div class="my-2 flex flex-col">
-      <span>Refreshing in...</span>
-      <span class="absolute right-4"><span class="fa fa-clock"></span> {{ generator.GENERATOR_CHECK_TIME }}</span>
+      <div class="flex flex-row justify-between">
+        <span>Refreshing in...</span>
+        <span class=""><span class="fa fa-clock"></span> {{ generator.GENERATOR_CHECK_TIME }}</span>
+      </div>
       <igt-progress-bar :percentage="refreshProgress" fg-class="bg-gray-500" bg-class="bg-gray-600"></igt-progress-bar>
 
     </div>
-    <div class="flex flex-row flex-wrap space-x-4">
+    <div class="flex flex-row flex-wrap">
       <igt-action :action="action"
+                  class="m-2"
                   v-for="(action, index) in actions"
                   :key="action.description + '-' + index">
       </igt-action>

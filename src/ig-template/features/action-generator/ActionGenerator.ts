@@ -4,6 +4,10 @@ import {Features} from "@/ig-template/Features";
 import {ActionGeneratorSaveData} from "@/ig-template/features/action-generator/ActionGeneratorSaveData";
 import {JewelAction} from "@/ig-template/features/action-generator/actions/JewelAction";
 import {GainExpAction} from "@/ig-template/features/action-generator/actions/GainExpAction";
+import {Random} from "@/ig-template/tools/probability/Random";
+import {GainCurrencyAction} from "@/ig-template/features/action-generator/actions/GainCurrencyAction";
+import {CurrencyType} from "@/ig-template/features/wallet/CurrencyType";
+import {Currency} from "@/ig-template/features/wallet/Currency";
 
 export class ActionGenerator extends UpgradesFeature {
 
@@ -50,7 +54,11 @@ export class ActionGenerator extends UpgradesFeature {
     }
 
     private getAction(): JewelAction {
-        return new GainExpAction(3, this.playerLevel, 10);
+        const possibleActions = [
+            new GainExpAction(3, this.playerLevel, 10),
+            new GainCurrencyAction(3, new Currency(4, CurrencyType.Emerald), this._wallet),
+        ]
+        return Random.fromArray(possibleActions);
     }
 
     update(delta: number) {
