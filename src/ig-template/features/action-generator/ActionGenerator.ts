@@ -59,7 +59,7 @@ export class ActionGenerator extends UpgradesFeature {
             CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 5), CurrencyType.Sapphire).concat(
                 CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 5), CurrencyType.Emerald).concat(
                     CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 5), CurrencyType.Ruby).concat(
-                        CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 5), CurrencyType.Diamond).concat(
+                        CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(25, 25, 5), CurrencyType.Diamond).concat(
                         )
                     )
                 )
@@ -68,8 +68,8 @@ export class ActionGenerator extends UpgradesFeature {
         )
 
         this.locks = new DiscreteUpgrade(UpgradeId.Locks, UpgradeType.None, "Lock Actions", 5,
-            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(0, 1, 5), CurrencyType.Diamond),
-            ArrayBuilder.fromStartAndStepAdditive(0, 1, 6), 1
+            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(1, 5, 5), CurrencyType.Diamond),
+            ArrayBuilder.fromStartAndStepAdditive(0, 1, 6), 0
         )
 
 
@@ -77,7 +77,7 @@ export class ActionGenerator extends UpgradesFeature {
             CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 12), CurrencyType.Sapphire).concat(
                 CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 7), CurrencyType.Emerald).concat(
                     CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 7), CurrencyType.Ruby).concat(
-                        CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 4), CurrencyType.Diamond).concat(
+                        CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(25, 25, 4), CurrencyType.Diamond).concat(
                         )
                     )
                 )
