@@ -13,6 +13,8 @@
 
       <igt-upgrade :upgrade="betterGems" :can-buy="generator.canAfford(betterGems)"
                    @click.native="generator.buyUpgrade(betterGems)"></igt-upgrade>
+      <igt-upgrade :upgrade="speedBoost" :can-buy="generator.canAfford(speedBoost)"
+                   @click.native="generator.buyUpgrade(speedBoost)"></igt-upgrade>
 
       <igt-single-level-upgrade :upgrade="highlightNegativeUpgrade"
                                 :can-buy="generator.canAfford(highlightNegativeUpgrade)"
@@ -70,6 +72,9 @@ export default {
     },
     highlightNegatives() {
       return this.generator.highlightNegativeActions;
+    },
+    speedBoost() {
+      return this.generator.speedBoostUpgrade;
     },
     locks() {
       return this.generator.locks;

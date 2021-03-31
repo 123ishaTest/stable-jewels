@@ -8,4 +8,5 @@ export enum UpgradeId {
     MoneyMultiplicative = 'money-multiplicative',
     SingleLevel = 'single-level',
     Locks = 'locks',
+    SpeedBoost = 'speed-boost',
 }

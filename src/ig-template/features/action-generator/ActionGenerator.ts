@@ -24,6 +24,7 @@ export class ActionGenerator extends UpgradesFeature {
     maxActionsUpgrade: DiscreteUpgrade;
     negativeRateUpgrade: DiscreteUpgrade;
     betterGems: DiscreteUpgrade;
+    speedBoostUpgrade: DiscreteUpgrade;
     locks: DiscreteUpgrade;
     highlightNegatives: SingleLevelUpgrade;
 
@@ -36,7 +37,7 @@ export class ActionGenerator extends UpgradesFeature {
             return 1 / 8 * (level ** 2 - level + 600 * (2 ** (level / 7) - 2 ** (1 / 7)) / (2 ** (1 / 7) - 1))
         })
 
-        this.refreshDurationUpgrade = new DiscreteUpgrade(UpgradeId.ActionRefreshDuration, UpgradeType.None, "Upgrade refresh duration", 10,
+        this.refreshDurationUpgrade = new DiscreteUpgrade(UpgradeId.ActionRefreshDuration, UpgradeType.None, "Refresh Duration", 10,
             CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 10), CurrencyType.Sapphire),
             ArrayBuilder.fromStartAndStepAdditive(30, 10, 11),
         )
@@ -49,6 +50,18 @@ export class ActionGenerator extends UpgradesFeature {
         this.negativeRateUpgrade = new DiscreteUpgrade(UpgradeId.NegativeRate, UpgradeType.None, "Negative Chance", 10,
             CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(0, 50, 10), CurrencyType.Ruby),
             ArrayBuilder.fromStartAndStepAdditive(0.5, -0.05, 11), 1
+        )
+
+        this.speedBoostUpgrade = new DiscreteUpgrade(UpgradeId.SpeedBoost, UpgradeType.None, "Speed boost", 20,
+            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 5), CurrencyType.Sapphire).concat(
+                CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 5), CurrencyType.Emerald).concat(
+                    CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 5), CurrencyType.Ruby).concat(
+                        CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(50, 50, 5), CurrencyType.Diamond).concat(
+                        )
+                    )
+                )
+            ),
+            ArrayBuilder.fromStartAndStepAdditive(1, 0.1, 21), 0
         )
 
         this.locks = new DiscreteUpgrade(UpgradeId.Locks, UpgradeType.None, "Lock Actions", 5,
@@ -79,6 +92,7 @@ export class ActionGenerator extends UpgradesFeature {
             this.betterGems,
             this.highlightNegatives,
             this.locks,
+            this.speedBoostUpgrade
         ]
     }
 
@@ -126,6 +140,10 @@ export class ActionGenerator extends UpgradesFeature {
 
     get highlightNegativeActions(): boolean {
         return this.highlightNegatives.isBought()
+    }
+
+    get speedBoost() {
+        return this.speedBoostUpgrade.getBonus();
     }
 
     get switchTime() {
@@ -180,6 +198,9 @@ export class ActionGenerator extends UpgradesFeature {
         for (let i = 0; i < 15; i++) {
             possibleActions.push(this.createExpGain(level, negativeProb))
         }
+        possibleActions.forEach(action => {
+            action.duration /= this.speedBoost;
+        })
         return Random.fromArray(possibleActions);
     }
 
@@ -189,7 +210,7 @@ export class ActionGenerator extends UpgradesFeature {
         const isNegative = Random.booleanWithProbability(negativeProb);
         if (isNegative) {
             benefit *= -4 / 5;
-            duration /= 8;
+            duration /= 3;
         }
         return new GainExpAction(duration, this.playerLevel, Random.fuzzInt(benefit, 0.2))
     }
