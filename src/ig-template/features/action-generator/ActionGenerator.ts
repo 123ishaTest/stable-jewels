@@ -72,8 +72,8 @@ export class ActionGenerator extends UpgradesFeature {
         )
 
 
-        this.betterGems = new DiscreteUpgrade(UpgradeId.BetterGems, UpgradeType.None, "Better Gem Chance", 25,
-            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 7), CurrencyType.Sapphire).concat(
+        this.betterGems = new DiscreteUpgrade(UpgradeId.BetterGems, UpgradeType.None, "Better Gem Chance", 30,
+            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 12), CurrencyType.Sapphire).concat(
                 CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 7), CurrencyType.Emerald).concat(
                     CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 7), CurrencyType.Ruby).concat(
                         CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 4), CurrencyType.Diamond).concat(
@@ -81,7 +81,7 @@ export class ActionGenerator extends UpgradesFeature {
                     )
                 )
             ),
-            ArrayBuilder.fromStartAndStepAdditive(0, 0.1, 26), 1
+            ArrayBuilder.fromStartAndStepAdditive(0, 0.1, 31), 1
         )
 
         this.highlightNegatives = new SingleLevelUpgrade(UpgradeId.HighlightNegative, UpgradeType.None, "Highlight Negatives",
