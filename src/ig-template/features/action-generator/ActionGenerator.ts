@@ -24,6 +24,7 @@ export class ActionGenerator extends UpgradesFeature {
     maxActionsUpgrade: DiscreteUpgrade;
     negativeRateUpgrade: DiscreteUpgrade;
     betterGems: DiscreteUpgrade;
+    locks: DiscreteUpgrade;
     highlightNegatives: SingleLevelUpgrade;
 
     public checkCounter: number = 0;
@@ -50,6 +51,11 @@ export class ActionGenerator extends UpgradesFeature {
             ArrayBuilder.fromStartAndStepAdditive(0.5, -0.05, 11), 1
         )
 
+        this.locks = new DiscreteUpgrade(UpgradeId.Locks, UpgradeType.None, "Lock Actions", 5,
+            CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(1, 1, 5), CurrencyType.Diamond),
+            ArrayBuilder.fromStartAndStepAdditive(0, 1, 6), 1
+        )
+
 
         this.betterGems = new DiscreteUpgrade(UpgradeId.BetterGems, UpgradeType.None, "Better Gem Chance", 25,
             CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(100, 100, 7), CurrencyType.Sapphire).concat(
@@ -71,13 +77,39 @@ export class ActionGenerator extends UpgradesFeature {
             this.maxActionsUpgrade,
             this.negativeRateUpgrade,
             this.betterGems,
-            this.highlightNegatives
+            this.highlightNegatives,
+            this.locks,
         ]
     }
 
 
     start() {
         this.generateNewActions();
+    }
+
+    lock(index: number) {
+        if (this.currentLock >= this.maxLock) {
+            return;
+        }
+        this.actions[index].isLocked = !this.actions[index].isLocked;
+    }
+
+    unlock(index: number) {
+        this.actions[index].isLocked = false;
+    }
+
+    get currentLock() {
+        let total = 0;
+        this.actions.forEach(action => {
+            if (action.isLocked) {
+                total++;
+            }
+        });
+        return total;
+    }
+
+    get maxLock() {
+        return this.locks.getBonus();
     }
 
     update(delta: number) {
@@ -117,18 +149,26 @@ export class ActionGenerator extends UpgradesFeature {
     }
 
     private generateNewActions() {
-        const activeMemory = this.actions.map(action => {
-            return action.isStarted;
-        })
-        this.actions = [];
+        const newActions = [];
         for (let i = 0; i < this.maxActionCount; i++) {
-            this.actions.push(this.getAction())
-        }
-        this.actions.forEach((action, index) => {
-            action.isStarted = activeMemory[index];
-        })
+            const oldAction = this.actions[i];
+            if (!oldAction) {
+                newActions.push(this.getAction());
+                continue;
+            }
+            if (oldAction.isLocked) {
+                newActions.push(oldAction);
+                continue;
+            }
 
+            const wasStarted = oldAction.isStarted;
+            const newAction = this.getAction();
+            newAction.isStarted = wasStarted
+            newActions.push(newAction)
+        }
+        this.actions = newActions;
     }
+
 
     private getAction(): JewelAction {
         const level = this.playerLevel.getLevel();

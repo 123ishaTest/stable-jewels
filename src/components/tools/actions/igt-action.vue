@@ -1,13 +1,18 @@
 <template>
   <div
-      class="p-4 w-72 h-36 border-4 shadow-lg hover-highlight flex flex-row items-center cursor-pointer"
+      class="w-72 h-36 border-4 shadow-lg hover:opacity-80 flex flex-row items-center cursor-pointer"
       :class="color"
       @click="action.toggle()">
-    <div class="flex flex-col w-full space-y-1">
-      <p class="text-center text-white">{{ action.description }}</p>
-      <span class="text-center text-white"> <span class="fa fa-clock"/> {{ action.duration | numberFormat }}</span>
-      <igt-progress-bar :percentage="progressPercentage" fg-class="bg-gray-600"
-                        bg-class="bg-gray-300"></igt-progress-bar>
+    <div class="flex flex-col w-full">
+      <div class="flex flex-row w-full justify-end">
+        <span class="fa mx-4 p-2" :class="lockImage" @click.stop="lock"></span>
+      </div>
+      <div class="p-4 flex flex-col w-full space-y-1">
+        <p class="text-center text-white">{{ action.description }}</p>
+        <span class="text-center text-white"> <span class="fa fa-clock"/> {{ action.duration | numberFormat }}</span>
+        <igt-progress-bar :percentage="progressPercentage" fg-class="bg-gray-600"
+                          bg-class="bg-gray-300"></igt-progress-bar>
+      </div>
     </div>
   </div>
 </template>
@@ -25,6 +30,10 @@ export default {
   name: "igt-action",
   components: {IgtProgressBar},
   props: {
+    index: {
+      type: Number,
+      required: true,
+    },
     action: {
       type: JewelAction,
       required: true,
@@ -34,7 +43,15 @@ export default {
       required: true,
     }
   },
+  methods: {
+    lock() {
+      this.$emit("lock", this.index, !this.action.isLocked);
+    }
+  },
   computed: {
+    lockImage() {
+      return this.action.isLocked ? 'fa-lock text-black' : 'fa-unlock';
+    },
     color() {
       if (this.highlightNegatives && this.isNegative) {
         return 'bg-red-500 border-red-600';

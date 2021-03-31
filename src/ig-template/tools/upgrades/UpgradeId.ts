@@ -7,4 +7,5 @@ export enum UpgradeId {
     HighlightNegative = 'highlight-negative',
     MoneyMultiplicative = 'money-multiplicative',
     SingleLevel = 'single-level',
+    Locks = 'locks',
 }

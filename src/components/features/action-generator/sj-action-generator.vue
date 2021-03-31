@@ -14,8 +14,14 @@
       <igt-upgrade :upgrade="betterGems" :can-buy="generator.canAfford(betterGems)"
                    @click.native="generator.buyUpgrade(betterGems)"></igt-upgrade>
 
-      <igt-single-level-upgrade :upgrade="highlightNegativeUpgrade" :can-buy="generator.canAfford(highlightNegativeUpgrade)"
-                   @click.native="generator.buyUpgrade(highlightNegativeUpgrade)"></igt-single-level-upgrade>
+      <igt-single-level-upgrade :upgrade="highlightNegativeUpgrade"
+                                :can-buy="generator.canAfford(highlightNegativeUpgrade)"
+                                @click.native="generator.buyUpgrade(highlightNegativeUpgrade)"></igt-single-level-upgrade>
+
+
+      <igt-upgrade :upgrade="locks" :can-buy="generator.canAfford(locks)"
+                   @click.native="generator.buyUpgrade(locks)"></igt-upgrade>
+
     </div>
 
     <div class="my-2 flex flex-col">
@@ -28,6 +34,8 @@
     </div>
     <div class="flex flex-row flex-wrap">
       <igt-action :action="action"
+                  :index="index"
+                  @lock="lock"
                   :highlight-negatives="highlightNegatives"
                   class="m-2"
                   v-for="(action, index) in actions"
@@ -63,6 +71,9 @@ export default {
     highlightNegatives() {
       return this.generator.highlightNegativeActions;
     },
+    locks() {
+      return this.generator.locks;
+    },
     betterGems() {
       return this.generator.betterGems;
     },
@@ -86,6 +97,15 @@ export default {
     },
     level() {
       return this.generator.playerLevel;
+    }
+  },
+  methods: {
+    lock(index, lock) {
+      if (lock) {
+        this.generator.lock(index);
+      } else {
+        this.generator.unlock(index);
+      }
     }
   },
 
