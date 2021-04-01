@@ -2,7 +2,7 @@
   <div class="w-full p-4 bg-gray-500 shadow-xl flex flex-col items-center justify-around text-white space-y-4">
     <p>123IshaTest Games</p>
     <p>Made with the Incremental Game Template</p>
-    <div class="flex flex-row space-x-4">
+    <div class="flex flex-row space-x-4 items-center">
       <span>
         <a href="https://discord.gg/AvNpq6Ng6S" target="_blank">
           <img class="w-8 h-8" :src="require('@/assets/socials/discord.png')">
@@ -18,16 +18,30 @@
           <img class="w-8 h-8" :src="require('@/assets/socials/docusaurus.svg')">
         </a>
       </span>
+      <span>
+            <button class="btn btn-red" @click="resetSave">Reset Save</button>
+      </span>
     </div>
 
   </div>
 </template>
 
 <script>
+import {App} from "@/App.ts"
+
 export default {
   name: "sj-footer",
 
-
+  methods: {
+    resetSave() {
+      const confirmed = confirm("Are you sure you want to delete your save? This will not give you any rewards");
+      if (!confirmed) {
+        return;
+      }
+      App.game.deleteSave();
+      location.reload();
+    }
+  },
 }
 </script>
 
