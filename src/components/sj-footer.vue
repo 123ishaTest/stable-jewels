@@ -20,6 +20,7 @@
       </span>
       <span>
             <button class="btn btn-red" @click="resetSave">Reset Save</button>
+            <button class="btn btn-blue" @click="pauseResume">{{ isPaused ? "Resume" : "Pause" }}</button>
       </span>
     </div>
 
@@ -28,6 +29,7 @@
 
 <script>
 import {App} from "@/App.ts"
+import {GameState} from "@/ig-template/GameState";
 
 export default {
   name: "sj-footer",
@@ -40,6 +42,18 @@ export default {
       }
       App.game.deleteSave();
       location.reload();
+    },
+    pauseResume() {
+      if (this.isPaused) {
+        App.game.resume();
+      } else {
+        App.game.pause();
+      }
+    },
+  },
+  computed: {
+    isPaused() {
+      return App.game.state === GameState.Paused;
     }
   },
 }
