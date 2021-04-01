@@ -42,7 +42,7 @@ export class ActionGenerator extends UpgradesFeature {
 
         this.refreshDurationUpgrade = new DiscreteUpgrade(UpgradeId.ActionRefreshDuration, UpgradeType.None, "Refresh Duration", 10,
             CurrencyBuilder.createArray(ArrayBuilder.fromStartAndStepAdditive(0, 50, 10), CurrencyType.Sapphire),
-            ArrayBuilder.fromStartAndStepAdditive(10, 5, 11),1
+            ArrayBuilder.fromStartAndStepAdditive(10, 5, 11), 1
         )
 
         this.maxActionsUpgrade = new DiscreteUpgrade(UpgradeId.MaxActions, UpgradeType.None, "Max Actions", 30,
@@ -142,6 +142,10 @@ export class ActionGenerator extends UpgradesFeature {
         if (this.checkCounter >= this.switchTime) {
             this.generateNewActions();
             this.checkCounter = 0;
+        }
+
+        if (this.maxActionCount > this.actions.length) {
+            this.actions.push(this.createCurrencyGain(this.playerLevel.getLevel(), this.negativeProb))
         }
     }
 
