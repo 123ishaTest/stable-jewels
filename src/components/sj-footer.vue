@@ -20,7 +20,6 @@
       </span>
       <span>
             <button class="btn btn-red" @click="resetSave">Reset Save</button>
-            <button class="btn btn-blue" @click="pauseResume">{{ isPaused ? "Resume" : "Pause" }}</button>
       </span>
     </div>
 
