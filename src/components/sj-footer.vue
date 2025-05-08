@@ -14,7 +14,7 @@
         </a>
       </span>
       <span>
-        <a href="https://123ishatest.github.io/incremental-game-template-website/" target="_blank">
+        <a href="https://123ishatest.github.io/igt-docs/" target="_blank">
           <img class="w-8 h-8" :src="require('@/assets/socials/docusaurus.svg')">
         </a>
       </span>

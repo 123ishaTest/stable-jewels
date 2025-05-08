@@ -120,7 +120,7 @@ export default {
       const bought = this.generator.buyUpgrade(this.completeTheGame)
       if (bought) {
         this.$swal('Congratulations', "You have completed my April Fools game :)<br>" +
-            "I hope you enjoyed it. It was made in 1 day with the <a target='_blank' class='text-black cursive underline' href='https://123ishatest.github.io/incremental-game-template-website/'>Incremental Game Template</a>!<br>" +
+            "I hope you enjoyed it. It was made in 1 day with the <a target='_blank' class='text-black cursive underline' href='https://123ishatest.github.io/igt-docs/'>Incremental Game Template</a>!<br>" +
             "Want to learn more? Join the <a target='_blank' class='text-black cursive underline' href='https://discord.gg/AvNpq6Ng6S'>Discord</a>!<br>" +
             "<br><br> Thanks for playing<br>- Isha");
       }
